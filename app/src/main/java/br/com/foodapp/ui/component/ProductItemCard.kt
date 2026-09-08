@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -30,23 +31,28 @@ import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.foodapp.R
+import br.com.foodapp.model.Product
 import br.com.foodapp.ui.theme.FoodAppTheme
 import br.com.foodapp.ui.theme.PurpleCard
 import br.com.foodapp.ui.theme.TealCard
+import java.math.BigDecimal
 import kotlin.math.min
 
 
 @Composable
 fun ProductItemCard(
-
+    product: Product
 ) {
     Card(
         shape = RoundedCornerShape(15.dp),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp
         ),
-        modifier = Modifier
-            .padding(16.dp)
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        )
+//        modifier = Modifier
+//            .padding(16.dp)
     ){
         Column(
             modifier = Modifier
@@ -70,7 +76,7 @@ fun ProductItemCard(
             ){
                 Image(
                     painter = painterResource(
-                        R.drawable.ic_launcher_background
+                        product.image
                     ),
                     contentDescription = null,
                     modifier = Modifier
@@ -100,7 +106,7 @@ fun ProductItemCard(
             ) {
 
                 Text(
-                    text = LoremIpsum(200).values.first(),
+                    text = product.name,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     maxLines = 2,
@@ -109,7 +115,7 @@ fun ProductItemCard(
                         .padding(bottom = 8.dp)
                 )
                 Text(
-                    text = "R$ 14,00",
+                    text = product.price.toPlainString(),
                     fontSize = 14.sp
                 )
 
@@ -124,6 +130,12 @@ fun ProductItemCard(
 @Composable
 private fun ProductItemCardPreview() {
     FoodAppTheme {
-        ProductItemCard()
+        ProductItemCard(
+            Product(
+                name = "Hamburguer de frango com queijo triplo",
+                image = R.drawable.ic_launcher_background,
+                price = BigDecimal("28.99")
+            )
+        )
     }
 }
