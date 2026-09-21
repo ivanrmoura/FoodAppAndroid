@@ -35,6 +35,7 @@ import br.com.foodapp.model.Product
 import br.com.foodapp.ui.theme.FoodAppTheme
 import br.com.foodapp.ui.theme.PurpleCard
 import br.com.foodapp.ui.theme.TealCard
+import coil3.compose.AsyncImage
 import java.math.BigDecimal
 import kotlin.math.min
 
@@ -74,10 +75,8 @@ fun ProductItemCard(
                         )
                     )
             ){
-                Image(
-                    painter = painterResource(
-                        product.image
-                    ),
+                AsyncImage(
+                    model = product.image,
                     contentDescription = null,
                     modifier = Modifier
                         .size(100.dp)
@@ -133,7 +132,7 @@ private fun ProductItemCardPreview() {
         ProductItemCard(
             Product(
                 name = "Hamburguer de frango com queijo triplo",
-                image = R.drawable.ic_launcher_background,
+                image = null,
                 price = BigDecimal("28.99")
             )
         )
