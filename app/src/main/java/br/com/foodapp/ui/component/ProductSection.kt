@@ -49,7 +49,7 @@ fun ProductSection(
 //            }
 
             items(prods){ p ->
-                ProductItemCard(product = p)
+                ProductItem(product = p)
             }
 
         }
