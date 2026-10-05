@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -25,8 +26,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import br.com.foodapp.sampledata.sampleProducts
 import br.com.foodapp.sampledata.sampleSections
+import br.com.foodapp.ui.component.ProductItemCard
 import br.com.foodapp.ui.component.ProductSection
+import br.com.foodapp.ui.component.SearchTextField
 import br.com.foodapp.ui.theme.FoodAppTheme
 import br.com.foodapp.ui.theme.Red200
 
@@ -41,48 +45,46 @@ fun HomeScreen(
         modifier = modifier
     ) {
 
-        OutlinedTextField(
-            value = productSeachText,
-            onValueChange = { newText ->
+        SearchTextField(
+            text = productSeachText,
+            onTextChange = { newText ->
                 productSeachText = newText
-            },
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
-            shape = RoundedCornerShape(50),
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = null
-                )
-            },
-            placeholder = {
-                Text(
-                    text = "O que você procura?"
-                )
-            },
-            label = {
-                Text(
-                    text = "Produto"
-                )
             }
         )
 
+        val productsFilted = remember(productSeachText) {
+            sampleProducts.filter {
+                it.name.contains(productSeachText, true) ||
+                        it.description?.contains(productSeachText, true) ?: false
+            }
+        }
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             contentPadding = PaddingValues(vertical = 16.dp)
         ) {
 
-            for (section in sampleSections) {
-                val title = section.key
-                val products = section.value
-                item {
-                    ProductSection(
-                        title = title,
-                        prods = products
-                    )
+            if (productSeachText.isBlank()){
+                for (section in sampleSections) {
+                    val title = section.key
+                    val products = section.value
+                    item {
+                        ProductSection(
+                            title = title,
+                            prods = products
+                        )
+                    }
+                }
+            }else{
+                items(productsFilted){ p ->
+                  ProductItemCard(
+                      product = p,
+                      modifier = Modifier
+                          .padding(horizontal = 16.dp)
+                  )
                 }
             }
+
+
 
         }
     }

@@ -16,6 +16,8 @@ val PurpleCard = Color(0xFF6200EE)
 
 val TealCard = Color(0xFF03DAC5)
 
+val PurpleCard2 = Color(0xFF8E99F3)
+
 
 
 
